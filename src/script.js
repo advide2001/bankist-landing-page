@@ -97,3 +97,36 @@ tabsContainer.addEventListener('click', e => {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+// Navigation fade animation --------------------------------------------------
+
+const nav = document.querySelector('.nav');
+
+// reduce opacity when the link element is hovered over
+nav.addEventListener('mouseover', e => {
+  if (e.target.classList.contains('nav__link')) {
+    const linkElement = e.target;
+    const linkElementSiblings = linkElement
+      .closest('.nav')
+      .querySelectorAll('.nav__link');
+    const logo = linkElement.closest('.nav').querySelector('img');
+
+    // Reduce all opacity and then bring it back on hovered element
+    linkElementSiblings.forEach(linkElementSibling => {
+      linkElementSibling.style.opacity = 0.5;
+    });
+    linkElement.style.opacity = 1;
+    logo.style.opacity = 0.5;
+  }
+});
+
+// Bring them back to normal condition when the mouse is out
+nav.addEventListener('mouseout', () => {
+  const navLinks = document.querySelectorAll('.nav__link');
+  navLinks.forEach(navLink => {
+    navLink.style.opacity = 1;
+  });
+
+  const logo = document.querySelector('.nav__logo');
+  logo.style.opacity = 1;
+});
