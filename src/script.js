@@ -69,3 +69,31 @@ document.querySelector('.nav__links').addEventListener('click', e => {
     document.querySelector(elementID).scrollIntoView({ behavior: 'smooth' });
   }
 });
+
+// Tabbed component for operations section----------------------------------------------------------------
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContent = document.querySelectorAll('.operations__content');
+const tabsContainer = document.querySelector('.operations__tab-container');
+
+// Using EVENT DELEGATION to add event listeners
+tabsContainer.addEventListener('click', e => {
+  // matching strategy for selecting on the tabs only
+  const clicked = e.target.closest('.operations__tab');
+
+  // Guard class - when no tab is clicked
+  if (!clicked) return;
+
+  // Remove class on all tabs and tab content
+  tabs.forEach(tab => {
+    tab.classList.remove('operations__tab--active');
+  });
+  tabsContent.forEach(tabContent => {
+    tabContent.classList.remove('operations__content--active');
+  });
+
+  // Add active class on the selected tab
+  clicked.classList.add('operations__tab--active');
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
