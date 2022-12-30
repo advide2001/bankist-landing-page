@@ -20,6 +20,14 @@ const closeModal = function () {
   overlay.classList.add('hidden');
 };
 
+// Add event listener to all the buttons that have the class
+
+// Replaced for loop with forEach method
+// for (let i = 0; i < btnsOpenModal.length; i++)
+//   btnsOpenModal[i].addEventListener('click', openModal);
+
+btnsOpenModal.forEach(button => button.addEventListener('click', openModal));
+
 btnCloseModal.addEventListener('click', closeModal); // clicking the close modal button
 overlay.addEventListener('click', closeModal); //Click outside modal
 
