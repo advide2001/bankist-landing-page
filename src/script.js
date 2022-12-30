@@ -1,8 +1,6 @@
 'use strict';
 
-///////////////////////////////////////
-// Modal window
-
+// Modal window ----------------------------------------------------------------
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
@@ -38,10 +36,36 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-// Smooth scrolling when the button 'learn more' is clicked
+// Smooth scrolling when the button 'learn more' is clicked ----------------------------------------------------------------
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 
 btnScrollTo.addEventListener('click', () => {
   section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+// Page navigation -----------------------------------------
+
+// # This way of attaching event listener can impact performance
+// # Hence a workaround is to use EVENT DELEGATION instead
+
+// document.querySelectorAll('.nav__link').forEach(element =>
+//   element.addEventListener('click', e => {
+//     e.preventDefault();
+//     const id = element.getAttribute('href');
+//     // Select element to scroll to from the href attribute
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//   })
+// );
+
+// EVENT DELEGATION
+// 1. Add event listener to common parent element
+// 2. Determine what element origignated the event
+document.querySelector('.nav__links').addEventListener('click', e => {
+  e.preventDefault();
+  // matching strategy for selecting on the nav__link
+  if (e.target.classList.contains('nav__link')) {
+    const elementID = e.target.getAttribute('href');
+    document.querySelector(elementID).scrollIntoView({ behavior: 'smooth' });
+  }
 });
