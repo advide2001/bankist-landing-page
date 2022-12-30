@@ -37,3 +37,11 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+// Smooth scrolling when the button 'learn more' is clicked
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', () => {
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
