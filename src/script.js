@@ -207,3 +207,93 @@ const imgObserver = new IntersectionObserver(loadImg, {
 imgTargets.forEach(imgTarget => {
   imgObserver.observe(imgTarget);
 });
+
+// Construct a slider component for the reviews section --------------------------------
+
+const sliderFunctionality = () => {
+  const slider = document.querySelector('.slider');
+  const slides = document.querySelectorAll('.slide');
+  const buttonLeft = slider.querySelector('.slider__btn--left');
+  const buttonRight = slider.querySelector('.slider__btn--right');
+  const dotContainer = slider.querySelector('.dots');
+
+  const maxSlides = slides.length;
+  let currentSlide = 0;
+
+  // Functions
+  // Dots to indeicate scroll position
+  const createDots = function () {
+    slides.forEach((slide, index) => {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class="dots__dot" data-slide="${index}"></button>`
+      );
+    });
+  };
+
+  // Function to activate dots
+  const activateDot = currentSlide => {
+    document.querySelectorAll('.dots__dot').forEach(dot => {
+      dot.classList.remove('dots__dot--active');
+    });
+
+    document
+      .querySelector(`.dots__dot[data-slide="${currentSlide}"]`)
+      .classList.add('dots__dot--active');
+  };
+
+  const goToSlide = currentSlide => {
+    slides.forEach((slide, index) => {
+      slide.style.transform = `translateX(${100 * (index - currentSlide)}%)`;
+    });
+    activateDot(currentSlide);
+  };
+
+  // Go to next slide
+  const nextSlide = () => {
+    if (currentSlide === maxSlides - 1) {
+      currentSlide = 0;
+    } else {
+      currentSlide++;
+    }
+    goToSlide(currentSlide);
+  };
+  // Go to prev slide
+  const prevSilde = () => {
+    if (currentSlide === 0) {
+      currentSlide = maxSlides - 1;
+    } else {
+      currentSlide--;
+    }
+    goToSlide(currentSlide);
+  };
+
+  // Initialisation
+  const init = () => {
+    // Initial creation of dots
+    createDots();
+    // Activate slide 0 at the beginning
+    activateDot(0);
+    // Initial tanslateX assignments
+    goToSlide(0);
+  };
+  init();
+
+  // Event handlers
+  // Scroll through slides
+  buttonLeft.addEventListener('click', prevSilde);
+  buttonRight.addEventListener('click', nextSlide);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') prevSilde();
+    if (e.key === 'ArrowRight') nextSlide();
+  });
+
+  // Handle navvigation using dots
+  // using EVENT DELEGATION
+  dotContainer.addEventListener('click', e => {
+    if (e.target.classList.contains('dots__dot')) {
+      goToSlide(e.target.dataset.slide);
+    }
+  });
+};
+sliderFunctionality();
