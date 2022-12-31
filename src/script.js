@@ -130,3 +130,29 @@ nav.addEventListener('mouseout', () => {
   const logo = document.querySelector('.nav__logo');
   logo.style.opacity = 1;
 });
+
+// Sticky navigation when the page is scrolled --------------------------------
+
+// This is very bad for performance, hence should not be used.
+// const initialCoords = section1.getBoundingClientRect();
+// window.addEventListener('scroll', () => {
+//   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = entries => {
+  const [entry] = entries;
+
+  if (entry.isIntersecting == false) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
